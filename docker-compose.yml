@@ -1,0 +1,39 @@
+version: "2.0"
+
+# Create two separate networks
+networks:
+  organization_a: {}
+  organization_b: {}
+
+# Create one SOCKS5 proxy and one PostgreSQL database per network. Expose the
+# SOCKS5 proxy port to the host.
+services:
+  # Network A, which includes a database named "databasea" and exposes a
+  # SOCKS5 proxy on port 1080 on the host.
+  proxya:
+    image: "serjs/go-socks5-proxy:latest"
+    ports:
+      - "1080:1080"
+    networks:
+      - organization_a
+  databasea:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_PASSWORD: "password"
+    networks:
+      - organization_a
+
+  # Network B, which includes a database named "databaseb" and exposes a
+  # SOCKS5 proxy on port 1081 on the host.
+  proxyb:
+    image: "serjs/go-socks5-proxy:latest"
+    ports:
+      - "1081:1080"
+    networks:
+      - organization_b
+  databaseb:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_PASSWORD: "password"
+    networks:
+      - organization_b
