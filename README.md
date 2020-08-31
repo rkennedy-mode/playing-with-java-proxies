@@ -8,3 +8,7 @@ not guaranteed and when it is available it's rarely (if ever) consistent.
 
 This is not a perfect solution. There are issues involving threads that may make this approach 
 inadvisable. But it's still useful in exploring the space to understand what's possible.
+
+The provided `docker-compose.yml` file sets up two networks, each with an public SOCKS5 proxy and 
+a private PostgreSQL database. `Main.java` uses those proxies to connect to the databases as a 
+proof of concept.
